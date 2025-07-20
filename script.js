@@ -11,20 +11,18 @@ btnNewBook.addEventListener('click', () => dialog.showModal());
 cancelBtn.addEventListener('click', () => dialog.close());
 form.addEventListener('submit', formSubmit);
 
-function Book(author, title, pages, isRead) {
-    if (!new.target) {
-        throw new Error('Please use "new" keyword with Person');
+class Book {
+    constructor(author, title, pages, isRead) {
+        this.author = author;
+        this.title = title;
+        this.pages = pages;
+        this.id = crypto.randomUUID();
+        this.isRead = isRead;
     }
-    this.author = author;
-    this.title = title;
-    this.pages = pages;
-    this.id = crypto.randomUUID();
-    this.isRead = isRead;
+    toggleRead() {
+        this.isRead = !this.isRead;
+    }
 }
-
-Book.prototype.toggleRead = function () {
-    this.isRead = !this.isRead;
-};
 
 function addBookToLibrary(book) {
     books.push(book);
