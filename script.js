@@ -77,15 +77,23 @@ function removeBook(book) {
 
 function formSubmit(e) {
     e.preventDefault();
+    form.elements['pages'].setCustomValidity("");
 
+    if (!form.checkValidity()) {
+        form.reportValidity(); // shows native error messages
+        return;
+    }
 
     const title = form.elements['title'].value;
     const author = form.elements['author'].value;
     const pages = Number(form.elements['pages'].value);
 
     if (pages <= 0) {
-        alert("Please enter a valid number of pages.");
+        form.elements['pages'].setCustomValidity("Pages must be greater than 0.");
+        form.elements['pages'].reportValidity();
         return;
+    } else {
+        form.elements['pages'].setCustomValidity("");
     }
 
     const isRead = form.elements['isRead'].checked;
@@ -94,10 +102,11 @@ function formSubmit(e) {
     addBookToLibrary(newBook);
 
     displayLibrary();
-
     form.reset();
     dialog.close();
 }
+
+
 
 // placeholders
 const book1 = new Book('J.K. Rowling', 'Harry Potter', 309, true);
